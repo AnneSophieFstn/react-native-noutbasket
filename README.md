@@ -41,7 +41,6 @@ Une application qui réunie les fans de basket autour de la balle orange.
 
 ## Installer et exécuter le projet
 
-1. Lancer le server
-   $ cd ./server
+1. Lancer sur Expo
    $ npm install
    $ npm run start
