@@ -60,7 +60,7 @@ export default function Maps() {
               title={marker.name}
             >
               <Image
-                source={require("../../../assets/pin-basketball.png")}
+                source={{ uri: "https://i.ibb.co/JsY6rLK/pin-basketball.png" }}
                 style={{ width: 30, height: 30, resizeMode: "contain" }}
               />
             </Marker>

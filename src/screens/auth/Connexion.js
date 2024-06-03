@@ -26,7 +26,13 @@ function Connexion({ navigation }) {
         }}
       >
         <View style={{ alignItems: "center" }}>
-          <Image source={LogoApp} style={styles.img} resizeMode="contain" />
+          <Image
+            source={{
+              uri: "https://i.ibb.co/gjwKR54/Plan-de-travail-1-CMJN.png",
+            }}
+            style={styles.img}
+            resizeMode="contain"
+          />
         </View>
         <View style={{}}>
           <Input
@@ -117,7 +123,6 @@ const styles = StyleSheet.create({
     width: 300,
     marginBottom: 30,
     borderRadius: 200,
-    borderColor: "green",
     overflow: "hidden",
   },
 
