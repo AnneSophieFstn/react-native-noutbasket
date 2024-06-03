@@ -16,7 +16,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import { errorToast, successToast } from "../../Toast/ToastMessage";
 
 function EditEvenement({ route, navigation }) {
-  const { userInfo } = React.useContext(AuthContext);
+  const { userInfo, getConfig } = React.useContext(AuthContext);
 
   const { data } = route.params;
 
@@ -120,9 +120,13 @@ function EditEvenement({ route, navigation }) {
       terrain_id: evenement.terrain_id,
       user_id: userInfo.id,
     };
-
+    const config = await getConfig();
     try {
-      const response = await configDB.put(`/evenements/${data.id}`, data);
+      const response = await configDB.put(
+        `/evenements/${data.id}`,
+        data,
+        config
+      );
       successToast(response.data.message);
       navigation.replace("Mes evenements");
     } catch (error) {

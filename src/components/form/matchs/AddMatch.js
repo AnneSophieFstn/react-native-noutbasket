@@ -10,7 +10,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import { errorToast, successToast } from "../../Toast/ToastMessage";
 
 function AddMatch({ navigation }) {
-  const { userInfo } = useContext(AuthContext);
+  const { userInfo, getConfig } = useContext(AuthContext);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -81,8 +81,10 @@ function AddMatch({ navigation }) {
       user_id: userInfo.id,
     };
 
+    const config = await getConfig();
+
     try {
-      const response = await configDB.post("/matchs", data);
+      const response = await configDB.post("/matchs", data, config);
       successToast(response.data.message);
       setName("");
       setDescription("");
@@ -95,7 +97,8 @@ function AddMatch({ navigation }) {
       setSelected("");
       navigation.push("Accueil", { screen: "Matchs" });
     } catch (error) {
-      errorToast(error.response.data.message);
+      console.log(error);
+      errorToast(error);
     }
   };
 

@@ -66,6 +66,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const getConfig = async () => {
+    if (userToken) {
+      return {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      };
+    } else {
+      throw new Error("User is not authenticated");
+    }
+  };
+
   useEffect(() => {
     isLoggedIn();
   }, []);
@@ -81,6 +93,7 @@ export const AuthProvider = ({ children }) => {
         userInfo,
         setUserInfo,
         deleteAccount,
+        getConfig,
       }}
     >
       {children}

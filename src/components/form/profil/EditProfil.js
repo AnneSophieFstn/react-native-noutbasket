@@ -26,7 +26,8 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { errorToast, successToast } from "../../Toast/ToastMessage";
 
 export default function EditProfil({ navigation }) {
-  const { userInfo, setUserInfo } = useContext(AuthContext);
+  const { userInfo, userToken, getConfig, setUserInfo } =
+    useContext(AuthContext);
 
   const [imageDownload, setImageDownload] = useState(false);
 
@@ -112,6 +113,7 @@ export default function EditProfil({ navigation }) {
           {
             headers: {
               "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${userToken}`,
             },
           }
         );
@@ -169,9 +171,13 @@ export default function EditProfil({ navigation }) {
       height: infoUser.height,
       biography: infoUser.biography,
     };
-
+    const config = await getConfig();
     try {
-      const response = await configDB.put(`/users/${userInfo.id}`, data);
+      const response = await configDB.put(
+        `/users/${userInfo.id}`,
+        data,
+        config
+      );
 
       const updatedUserInfo = {
         ...userInfo,

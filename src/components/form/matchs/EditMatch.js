@@ -18,7 +18,7 @@ import { errorToast, successToast } from "../../Toast/ToastMessage";
 function EditMatch({ route, navigation }) {
   const { data } = route.params;
 
-  const { userInfo } = React.useContext(AuthContext);
+  const { userInfo, getConfig } = React.useContext(AuthContext);
 
   const [match, setMatch] = React.useState({
     id: data["id"],
@@ -115,12 +115,15 @@ function EditMatch({ route, navigation }) {
       user_id: userInfo.id,
     };
 
+    const config = await getConfig();
+
     try {
-      const response = await configDB.put(`/matchs/${data.id}`, data);
+      const response = await configDB.put(`/matchs/${data.id}`, data, config);
       successToast(response.data.message);
       navigation.push("Mes matchs");
     } catch (error) {
-      errorToast(error.response.data.message);
+      console.log(error);
+      //errorToast(error.response.data.message);
     }
   };
 

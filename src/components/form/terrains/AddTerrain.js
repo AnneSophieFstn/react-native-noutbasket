@@ -13,7 +13,7 @@ import { errorToast, successToast } from "../../Toast/ToastMessage";
 function AddTerrain({ navigation }) {
   const apiKeyMaps = process.env.REACT_APP_API_KEY_MAPS;
 
-  const { userInfo } = useContext(AuthContext);
+  const { userInfo, userToken } = useContext(AuthContext);
   const [region, setRegion] = useState({
     latitude: -21.1088145,
     longitude: 55.5380413,
@@ -86,6 +86,7 @@ function AddTerrain({ navigation }) {
         const response = await configDB.post("/terrains", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${userToken}`,
           },
         });
 

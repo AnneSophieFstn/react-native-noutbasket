@@ -16,7 +16,7 @@ import ModalComponent from "../modal/ModalComponent";
 import { errorToast, successToast } from "../Toast/ToastMessage";
 
 export default function VueCard({ navigation, route }) {
-  const { userInfo } = React.useContext(AuthContext);
+  const { userInfo, getConfig } = React.useContext(AuthContext);
   let userCreate = userInfo.id;
   const { data } = route.params;
   const [visible, setVisible] = React.useState(false);
@@ -74,25 +74,31 @@ export default function VueCard({ navigation, route }) {
           user_id: userInfo.id,
         };
 
+        const config = await getConfig();
+
         const participant = await configDB.put(
-          `/matchs/participants/${data.id}`
+          `/matchs/participants/${data.id}`,
+          config
         );
 
-        await configDB.post("/inscrit/matchs", dataM);
+        await configDB.post("/inscrit/matchs", config, dataM);
         setIsInscrit(true);
         successToast(participant.data.message);
       }
     } catch (error) {
-      errorToast(error.response.data.message);
+      console.log(error.message);
+      //errorToast(error.response.data.message);
     }
   };
 
   const desinscriptionMatch = async () => {
     try {
       console.log(data.id);
-      await configDB.put(`/matchs/desinscrire/${data.id}`);
+      const config = await getConfig();
+      await configDB.put(`/matchs/desinscrire/${data.id}`, config);
       const response = await configDB.delete(
-        `/inscrit/matchs/${dataInscriptionMatch}`
+        `/inscrit/matchs/${dataInscriptionMatch}`,
+        config
       );
       setIsInscrit(false);
       setVisibleInscrit(!visibleInscrit);
@@ -115,11 +121,18 @@ export default function VueCard({ navigation, route }) {
 
         console.log(dataE);
 
+        const config = await getConfig();
+
         const participant = await configDB.put(
-          `/evenements/participants/${data.id}`
+          `/evenements/participants/${data.id}`,
+          config
         );
 
-        const inscritE = await configDB.post("/inscrit/evenements", dataE);
+        const inscritE = await configDB.post(
+          "/inscrit/evenements",
+          dataE,
+          config
+        );
         setIsInscrit(true);
         successToast(participant.data.message);
         //console.log("Participant evenement:", inscritE.data);
@@ -133,9 +146,12 @@ export default function VueCard({ navigation, route }) {
   const desinscriptionEvenement = async () => {
     try {
       console.log(data.id);
-      await configDB.put(`/evenements/desinscrire/${data.id}`);
+      const config = await getConfig();
+
+      await configDB.put(`/evenements/desinscrire/${data.id}`, config);
       const response = await configDB.delete(
-        `/inscrit/evenements/${dataInscriptionMatch}`
+        `/inscrit/evenements/${dataInscriptionMatch}`,
+        config
       );
       setIsInscrit(false);
       setVisibleInscrit(!visibleInscrit);
@@ -148,8 +164,11 @@ export default function VueCard({ navigation, route }) {
 
   const deleteData = async () => {
     try {
+      const config = await getConfig();
+
       const response = await configDB.delete(
-        "/" + data.routeApi + "/" + data.id
+        "/" + data.routeApi + "/" + data.id,
+        config
       );
       successToast(response.data.message);
       navigation.push("Accueil", { screen: data.title + "s" });

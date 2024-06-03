@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Input, Text } from "@rneui/themed";
 import { ScrollView, StyleSheet, View } from "react-native";
 import ButtonComponent from "../../button/ButtonComponent";
 import { Ionicons, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import configDB from "../../../database/database";
 import { errorToast, successToast } from "../../Toast/ToastMessage";
+import { AuthContext } from "../../../context/AuthContext";
 
 export default function EditPassword({ route, navigation }) {
   const { id } = route.params.data;
+  const { getConfig } = useContext(AuthContext);
 
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -21,9 +23,13 @@ export default function EditPassword({ route, navigation }) {
       oldPassword: password, // Utilisez le mot de passe actuel
       newPassword: newPassword,
     };
-
+    const config = await getConfig();
     try {
-      const response = await configDB.put(`/users/${id}/password`, data);
+      const response = await configDB.put(
+        `/users/${id}/password`,
+        data,
+        config
+      );
       setPassword("");
       setNewPassword("");
       setConfirmPassword("");

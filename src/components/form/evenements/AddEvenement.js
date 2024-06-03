@@ -10,7 +10,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import { errorToast, successToast } from "../../Toast/ToastMessage";
 
 function AddEvenement({ navigation }) {
-  const { userInfo } = useContext(AuthContext);
+  const { userInfo, getConfig } = useContext(AuthContext);
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -88,8 +88,10 @@ function AddEvenement({ navigation }) {
       user_id: userInfo.id,
     };
 
+    const config = await getConfig();
+
     try {
-      const response = await configDB.post("/evenements", data);
+      const response = await configDB.post("/evenements", data, config);
       successToast(response.data.message);
       setName("");
       setDescription("");

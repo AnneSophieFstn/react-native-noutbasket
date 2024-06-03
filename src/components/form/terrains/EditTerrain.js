@@ -13,7 +13,7 @@ import { errorToast, successToast } from "../../Toast/ToastMessage";
 function EditTerrain({ route, navigation }) {
   const apiKeyMaps = process.env.REACT_APP_API_KEY_MAPS;
 
-  const { userInfo } = useContext(AuthContext);
+  const { userInfo, userToken } = useContext(AuthContext);
 
   const { data } = route.params;
   const ref = useRef();
@@ -148,6 +148,7 @@ function EditTerrain({ route, navigation }) {
       const response = await configDB.put(`/terrains/${data.id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${userToken}`,
         },
       });
       successToast(response.data.message);
