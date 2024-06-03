@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "bball-projet-final",
-    "slug": "bball-projet-final",
+    "slug": "nout-basket",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "config": {
@@ -28,7 +30,10 @@
           "apiKey": ""
         }
       },
-      "permissions": ["ACCESS_FINE_LOCATION"]
+      "permissions": [
+        "android.permission.ACCESS_FINE_LOCATION"
+      ],
+      "package": "nout.basket"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -42,6 +47,12 @@
           "microphonePermission": false
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ab4419c3-fbcb-44e6-92be-0042d035bf89"
+      }
+    },
+    "owner": "annesophie"
   }
 }

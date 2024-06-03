@@ -4,7 +4,28 @@ module.exports = function (api) {
     presets: ["babel-preset-expo"],
     env: {
       production: {
-        plugins: ["react-native-paper/babel"],
+        plugins: [
+          "react-native-paper/babel",
+          [
+            "babel-plugin-module-resolver",
+            {
+              alias: {
+                "react-native-vector-icons": "@expo/vector-icons",
+              },
+            },
+          ],
+          [
+            "module:react-native-dotenv",
+            {
+              moduleName: "@env",
+              path: ".env",
+              blacklist: null,
+              whitelist: null,
+              safe: false,
+              allowUndefined: true,
+            },
+          ],
+        ],
       },
     },
   };
